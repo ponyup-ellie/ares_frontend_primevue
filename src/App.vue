@@ -1,59 +1,69 @@
 <template>
   <div id="app">
-    <div class="app-container">
-      <img alt="Vue logo" src="./assets/primevue-logo.png">
-      <HelloWorld msg="Welcome to Your PrimeVue App"/>
-      <form @submit.prevent="greet">
-        <InputText type="text" v-model="text"/>
-        <Button type="submit" label="Submit"/>
-        <h3>{{message}}</h3>
-      </form>
+    <div class="top-menu">
+      <Menubar :model="topMenus">
+        <template #start>
+            <img @click="goDashboard" src="@/assets/primevue-logo.png" height="40" class="p-mr-2">
+        </template>
+      </Menubar>
     </div>
-
-    <Toast/>
+    <div class="layout-main">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Menubar from 'primevue/menubar';
 
 export default {
     data() {
         return {
-            message: null,
-            text: null
+            topMenus: [
+                {
+                   label:'경기일정',
+                   icon:'pi pi-fw pi-calendar',
+                   to: '/schedules'
+                },
+                {
+                   label:'공지사항',
+                   icon:'pi pi-fw pi-pencil',
+                   to: '/notice'
+                },
+                {
+                   label:'커뮤니티',
+                   icon:'pi pi-fw pi-comments',
+                   to: '/community'
+                },
+                {
+                   label:'회원관리',
+                   icon:'pi pi-fw pi-user-edit',
+                   to: '/user'
+                },
+                {
+                   label:'팀관리',
+                   icon:'pi pi-fw pi-users',
+                   to: '/team'
+                }
+             ]
         }
     },
     methods: {
-        greet() {
-            this.$toast.add({severity: 'info', summary: 'Hello '  + this.text});
-            this.message = 'Hello ' + this.text;
-        }
+      goDashboard () {
+        this.$router.push('/')
+      }
     },
     components: {
-      HelloWorld
+      Menubar
     }
 }
 </script>
 
 <style scoped>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
+.layout-top {
+  width: 100vw;
 }
-
-.app-container {
-  text-align: center;
-}
-
-body #app .p-button {
-  margin-left: .2em;
-}
-
-form {
-  margin-top: 2em;
+.layout-main {
+  padding: 10px 10px 10px 10px;
 }
 </style>
